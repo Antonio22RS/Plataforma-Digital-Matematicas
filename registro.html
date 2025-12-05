@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <!--
+    index.html - Versión optimizada y comentada
+    -----------------------------------------
+    Objetivo: limpiar y optimizar el código sin cambiar la vista visual (colores, degradados, animaciones y efectos).
+    Cambios aplicados aquí (explicados en comentarios dentro del archivo):
+      - Mejora semántica (roles ARIA mínimos).
+      - Comentarios en cada sección explicando la función.
+      - Correcciones menores de CSS (eliminación de reglas inválidas y consolidación).
+      - Atributos alt y aria-labels añadidos para accesibilidad.
+      - Observaciones donde hace falta incluir fuentes externas (no se agregaron fuentes nuevas para no alterar la vista).
+    Nota: TODO lo visual (colores, degradados, animaciones y scripts) se ha mantenido tal cual.
+  -->
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Plataforma Virtual de Apoyo a las Matemáticas - Tecnológico de Estudios Superiores de Cuautitlán Izcalli" />
+  <title>Plataforma Virtual - Matemáticas</title>
+
+  <!-- Dependencias externas (se mantienen tal cual) -->
+  <link href="../Style/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ============================================================
+       Variables y estilos globales
+       ------------------------------------------------------------
+       - Conservamos los colores / degradados originales.
+       - Se documentan las variables y su propósito.
+       - No se cambió la paleta visual, sólo se aclaró su uso.
+       ============================================================ */
+
+    :root {
+      /* Nota: los nombres se conservan; los comentarios describen el color actual */
+      --color-primario: #510014;
+      /* rojo oscuro / primario (se usa en degradado) */
+      --color-secundario: #e00043;
+      /* acento (rojo brillante) */
+      --color-fondo: #ffffff;
+      --color-texto: #333333;
+      --color-gris: #f5f5f5;
+      --fuente-base: 'Gothambook', sans-serif;
+      /* Observación: si "Gothambook" no está cargada, se usará el fallback. */
+    }
+
+    /* Reset ligero: reduce inconsistencias entre navegadores (Bootstrap ya aplica su propio reset) */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Gothambook', sans-serif;
+      color: var(--color-texto);
+      background: var(--color-fondo);
+      line-height: 1.6;
+    }
+
+    .form-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       HERO (bloque principal con imagen y texto)
+       ------------------------------------------------------------
+       - Se mantienen exactamente los degradados, espaciados y efectos de zoom.
+       - Se agrupan estilos en clases (documentadas).
+       ============================================================ */
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 100px 8%;
+      background: linear-gradient(120deg, var(--color-primario), var(--color-secundario));
+      color: white;
+      flex-wrap: wrap;
+    }
+
+    .btn-hero:hover {
+      background: #e0e0e0;
+    }
+
+    .hero-imagen {
+      flex: 1 1 45%;
+      text-align: center;
+    }
+
+    .hero-imagen img {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 10px;
+      transition: transform 0.6s ease;
+      font-family: 'Gothambook', sans-serif;
+    }
+
+    /* Efecto zoom suave al pasar el mouse (preservado) */
+    .hero-imagen img:hover {
+      transform: scale(1.08);
+    }
+
+    /* ============================================================
+       Utilidades y correcciones
+       ------------------------------------------------------------
+       - Se eliminó CSS inválido presente en versiones anteriores.
+       - Se mantienen clases utilitarias propias del template.
+       ============================================================ */
+
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .b-example-divider {
+      height: 3rem;
+      background-color: rgba(0, 0, 0, .1);
+      box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    }
+
+    .b-example-vr {
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 100vh;
+    }
+
+    .bi {
+      vertical-align: -.125em;
+      fill: currentColor;
+    }
+
+    .nav-scroller {
+      position: relative;
+      z-index: 2;
+      height: 2.75rem;
+      overflow-y: hidden;
+    }
+
+    .nav-scroller .nav {
+      display: flex;
+      flex-wrap: nowrap;
+      padding-bottom: 1rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ============================================================
+       Clases tipográficas usadas para reemplazar <font> (mejor mantenimiento)
+       ------------------------------------------------------------ */
+
+    .brand-title {
+      font-family: "Philosopher", serif;
+      font-weight: 700;
+      color: rgb(162, 0, 0);
+      /* color visual conservado */
+    }
+
+    .brand-title-card {
+      font-family: "Philosopher", serif;
+      font-weight: 700;
+      color: rgb(245, 171, 171);
+    }
+
+    .brand-subtitle {
+      font-family: "GothamBook", sans-serif;
+      font-weight: 500;
+      color: lightslategray;
+    }
+
+    .body-text {
+      font-family: "GothamBook", sans-serif;
+    }
+
+    /* Ajuste para imagen overlay (legibilidad) - si se usa en otras tarjetas */
+    .card-img-overlay.bg-gradient {
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.20) 100%);
+    }
+
+    /* ============================================================
+       FOOTER: animación fade-in + estructura
+       ------------------------------------------------------------
+       - Se mantiene la animación original.
+       - Se ajustó `color` a inherit para evitar conflicto con fondo blanco,
+         la apariencia visual no cambia porque los elementos internos
+         definen sus propios colores.
+       ============================================================ */
+
+    footer {
+      background: #ffffff;
+      color: inherit;
+      /* antes estaba white - esto evita texto invisible si se aplica herencia */
+      padding: 60px 5% 30px;
+      opacity: 0;
+      /* invisible al cargar */
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    footer.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .footer-contenido {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .footer-columna-uno {
+      font-family: "GothamBook", sans-serif;
+      font-weight: 500;
+      flex: 1 1 30%;
+      margin: 20px;
+      min-width: 250px;
+      text-align: start;
+    }
+
+    .footer-columna-uno p,
+    .footer-columna-uno a {
+      color: lightslategray;
+      font-size: 0.95rem;
+      display: block;
+      margin-bottom: 10px;
+      transition: color 0.3s;
+      text-decoration: none;
+    }
+
+    .footer-columna-uno a:hover {
+      color: var(--color-secundario);
+    }
+
+    .footer-columna-dos {
+      font-family: "GothamBook", sans-serif;
+      font-weight: 500;
+      flex: 1 1 30%;
+      margin: 10px;
+      min-width: 250px;
+      text-align: end;
+    }
+
+    .footer-columna-dos h3 {
+      color: var(--color-secundario);
+      margin-bottom: 10px;
+    }
+
+    .footer-columna-dos p,
+    .footer-columna-dos a {
+      color: lightslategray;
+      font-size: 0.95rem;
+      display: block;
+      margin-bottom: 10px;
+      transition: color 0.3s;
+      text-decoration: none;
+    }
+
+    .footer-columna-dos a:hover {
+      color: var(--color-secundario);
+    }
+
+    /* Redes sociales */
+    .redes-sociales a {
+      display: inline-block;
+      margin-right: 15px;
+      font-size: 1.8rem;
+      color: rgb(162, 0, 0);
+      transition: all 0.4s ease;
+    }
+
+    .redes-sociales a.facebook:hover {
+      color: #1877f2;
+    }
+
+    .redes-sociales a.instagram:hover {
+      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .redes-sociales a.x-twitter:hover {
+      color: #000000;
+    }
+
+    .footer-bottom {
+      font-family: "GothamBook", sans-serif;
+      font-weight: 500;
+      color: lightslategray;
+      text-align: center;
+      padding-top: 20px;
+      font-size: 0.85rem;
+    }
+
+    /* ============================================================
+       Responsive: se mantiene comportamiento original
+       ============================================================ */
+    @media (max-width: 900px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 60px 8%;
+      }
+
+      .hero-texto,
+      .hero-imagen {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+
+      .hero-imagen img {
+        margin-top: 30px;
+      }
+    }
+  </style>
+
+  <!--
+    Observación sobre fuentes:
+    - El HTML usa "Philosopher" y "GothamBook". Si la vista actual depende de estas, asegúrate
+      de tener las fuentes cargadas en tus archivos externos (headers.css / Bootstrap.css) o
+      de importarlas desde Google Fonts / archivos locales. No se añadieron nuevos imports aquí
+      para no alterar la apariencia visual por diferencias de renderizado.
+  -->
+</head>
+
+<body>
+  <!-- MAIN: marcado semántico mejorado (no se cambia la vista) -->
+  <main role="main">
+    <!-- HEADER: rol banner para mejorar accesibilidad -->
+    <div class="container">
+      <header class="py-3 mb-4 border-bottom border-danger border-2" role="banner" aria-label="Cabecera principal">
+        <div class="container text-end">
+
+          <!-- Título institucional -->
+          <div class="border-bottom border-danger">
+            <div class="row align-items-center">
+              <div class="text-center w-100">
+                <!-- .brand-subtitle: conserva aspecto visual -->
+                <div class="brand-subtitle fw-bold" style="font-size:1.30rem;">
+                  TECNOLOGICO DE ESTUDIOS SUPERIORES DE CUAUTITLAN IZCALLI
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fila principal con logo y botones de acceso -->
+          <div class="row g-4 p-2 align-items-center">
+            <div class="col-2 border-bottom border-danger">
+              <div class="text-center">
+                <!-- Alt mejorado para accesibilidad; no cambia la vista -->
+                <img src="../Image/logo_n.png" class="img-fluid" width="130" alt="Logo de la plataforma" />
+              </div>
+            </div>
+
+            <div class="col-10">
+              <div class="row g-3 align-items-center">
+                <div class="col-md-12 text-end">
+                  <h1 class="brand-title display-6 mb-2">
+                    MATEMÁTICAS
+                    <small class="text-muted" style="font-size:1rem;">
+                      <span class="body-text">PLATAFORMA VIRTUAL</span>
+                    </small>
+                  </h1>
+
+                  <div class="mt-3">
+                    <!-- CORRECCIÓN: se usa <a class="btn"> en lugar de <a><button> para evitar anidamiento inválido -->
+                    <a href="index.html" class="btn btn-outline-danger me-2" role="button">ATRÁS</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <!-- Separador visual (se preserva usando utilidades Bootstrap) -->
+    <div class="container my-4"></div>
+
+    <!-- HERO principal -->
+    <section class="hero" aria-label="Formulario Registro">
+
+      <div class="container form-container mb-5">
+          <div class="hero-imagen" aria-hidden="false">
+          <img src="../Image/rino.png" alt="Mascota de la plataforma" />
+          <h2 class="mt-3">REGÍSTRATE PARA INGRESAR</h2>
+          <p class="lead">Crea tu cuenta para acceder al contenido de la plataforma. Tus datos se utilizarán para la
+            autenticación.</p>
+        </div>
+
+        <!-- Formulario: se mantiene action "insertar_est.php" y nombres de campos tal como estaban -->
+        <form class="needs-validation" novalidate action="insertar_est.php" method="POST">
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label for="firstName" class="form-label">Nombre(s) <span class="text-muted">(Obligatorio)</span></label>
+              <input type="text" class="form-control" id="firstName" name="nombre" required>
+              <div class="invalid-feedback">El valor de este campo es obligatorio.</div>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">Apellidos <span class="text-muted">(Obligatorio)</span></label>
+              <input type="text" class="form-control" id="lastName" name="apellido" required>
+              <div class="invalid-feedback">El valor de este campo es obligatorio.</div>
+            </div>
+
+            <div class="col-6">
+              <label for="email" class="form-label">Correo electrónico <span
+                  class="text-muted">(Obligatorio)</span></label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="ejemplo@email.com" required>
+              <div class="invalid-feedback">Introduce un correo válido.</div>
+            </div>
+
+            <div class="col-6">
+              <label for="matricula" class="form-label">No. de Control <span
+                  class="text-muted">(Obligatorio)</span></label>
+              <input type="matricula" class="form-control" id="matricula" name="matricula" required>
+              <div class="invalid-feedback">Introduce tu número de control.</div>
+            </div>
+
+            <div class="col-6">
+              <label for="pass" class="form-label">Contraseña <span class="text-muted">(Obligatorio)</span></label>
+              <!-- Mantengo name="contra" para compatibilidad con insert.php -->
+              <input type="password" class="form-control" id="pass" name="contra" placeholder="*********" required>
+              <div class="invalid-feedback">El valor de este campo es obligatorio.</div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+          <div class="py-3">
+            <button class="w-100 btn btn-outline-light btn-lg" type="submit">GUARDAR INFORMACIÓN</button>
+          </div>
+        </form>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER: se preserva estructura y animaciones -->
+  <footer id="footer" role="contentinfo" aria-label="Pie de página">
+    <div class="footer-contenido">
+
+      <!-- Columna enlaces -->
+      <div class="footer-columna-uno fw-bold" aria-label="Enlaces">
+        <a href="#">NOSOTROS</a>
+        <a href="#">ACERCA DE</a>
+        <a href="#">CONTACTO</a>
+        <a href="#">SERVICIOS</a>
+      </div>
+
+      <!-- Columna logo / imagen -->
+      <div class="footer-columna">
+        <div class="text-start mt-4">
+          <img src="../Image/m_logo.png" class="img-fluid" width="250" alt="Logo institucional" />
+        </div>
+      </div>
+
+      <!-- Columna redes sociales -->
+      <div class="footer-columna-dos" aria-label="Redes sociales">
+        <div class="redes-sociales">
+          <!-- Se añadieron aria-labels para accesibilidad sin cambiar apariencia -->
+          <a href="#" class="facebook" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="instagram" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="x-twitter" title="X (Twitter)" aria-label="X (Twitter)"><i
+              class="fab fa-x-twitter"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom border-top border-danger border-2 fw-bold">
+      &copy; 2025 DIVISIÓN DE INGENIERÍA EN SISTEMAS COMPUTACIONALES.
+    </div>
+  </footer>
+
+  <!-- Scripts (se mantienen exactamente como en el original) -->
+  <script src="../Style/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+
+    /* ============================================================
+       Observador para animar el footer (fade-in)
+       ------------------------------------------------------------
+       - Añade la clase .visible cuando el footer entra en el viewport.
+       - Se deja la misma lógica que en el original.
+       ============================================================ */
+    (function () {
+      const footer = document.getElementById('footer');
+      if (!footer) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            footer.classList.add('visible');
+            observer.unobserve(footer);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      observer.observe(footer);
+    })();
+  </script>
+</body>
+
+</html>

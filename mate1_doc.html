@@ -1,0 +1,2778 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <!--
+    index.html - Versión optimizada y comentada
+    -----------------------------------------
+    Objetivo: limpiar y optimizar el código sin cambiar la vista visual (colores, degradados, animaciones y efectos).
+    Cambios aplicados aquí (explicados en comentarios dentro del archivo):
+      - Mejora semántica (roles ARIA mínimos).
+      - Comentarios en cada sección explicando la función.
+      - Correcciones menores de CSS (eliminación de reglas inválidas y consolidación).
+      - Atributos alt y aria-labels añadidos para accesibilidad.
+      - Observaciones donde hace falta incluir fuentes externas (no se agregaron fuentes nuevas para no alterar la vista).
+    Nota: TODO lo visual (colores, degradados, animaciones y scripts) se ha mantenido tal cual.
+  -->
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Plataforma Virtual de Apoyo a las Matemáticas - Tecnológico de Estudios Superiores de Cuautitlán Izcalli" />
+  <title>Plataforma Virtual - Matemáticas</title>
+
+  <!-- Dependencias externas (se mantienen tal cual) -->
+  <link href="../Style/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ============================================================
+       Variables y estilos globales
+       ------------------------------------------------------------
+       - Conservamos los colores / degradados originales.
+       - Se documentan las variables y su propósito.
+       - No se cambió la paleta visual, sólo se aclaró su uso.
+       ============================================================ */
+
+    :root {
+      /* Nota: los nombres se conservan; los comentarios describen el color actual */
+      --color-primario: #510014;
+      /* rojo oscuro / primario (se usa en degradado) */
+      --color-secundario: #e00043;
+      /* acento (rojo brillante) */
+      --color-fondo: #ffffff;
+      --color-texto: #333333;
+      --color-gris: #f5f5f5;
+      --fuente-base: 'Gothambook', sans-serif;
+      /* Observación: si "Gothambook" no está cargada, se usará el fallback. */
+
+    }
+
+    /* Reset ligero: reduce inconsistencias entre navegadores (Bootstrap ya aplica su propio reset) */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Gothambook', sans-serif;
+      color: var(--color-texto);
+      background: var(--color-fondo);
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       HERO (bloque principal con imagen y texto)
+       ------------------------------------------------------------
+       - Se mantienen exactamente los degradados, espaciados y efectos de zoom.
+       - Se agrupan estilos en clases (documentadas).
+       ============================================================ */
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 100px 8%;
+      background: linear-gradient(120deg, var(--color-primario), var(--color-secundario));
+      color: white;
+      flex-wrap: wrap;
+    }
+
+    .hero-texto {
+      font-family: "GothamBook", sans-serif;
+      /* coincide con la fuente usada en el diseño */
+      flex: 1 1 45%;
+      max-width: 550px;
+      z-index: 2;
+    }
+
+    /* ============================================================
+       Utilidades y correcciones
+       ------------------------------------------------------------
+       - Se eliminó CSS inválido presente en versiones anteriores.
+       - Se mantienen clases utilitarias propias del template.
+       ============================================================ */
+
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .b-example-divider {
+      height: 3rem;
+      background-color: rgba(0, 0, 0, .1);
+      box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    }
+
+    .b-example-vr {
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 100vh;
+    }
+
+    .bi {
+      vertical-align: -.125em;
+      fill: currentColor;
+    }
+
+    .nav-scroller {
+      position: relative;
+      z-index: 2;
+      height: 2.75rem;
+      overflow-y: hidden;
+    }
+
+    .nav-scroller .nav {
+      display: flex;
+      flex-wrap: nowrap;
+      padding-bottom: 1rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-guinda .nav-link.active {
+      background-color: #ffffff !important;
+      color: #810000 !important;
+    }
+
+    .nav-guinda .nav-link:hover {
+      background-color: #a4161a;
+      color: #fff;
+    }
+
+    /* ============================================================
+       Clases tipográficas usadas para reemplazar <font> (mejor mantenimiento)
+       ------------------------------------------------------------ */
+
+    .brand-title {
+      font-family: "Philosopher", serif;
+      font-weight: 700;
+      color: rgb(162, 0, 0);
+      /* color visual conservado */
+    }
+
+    .brand-title-video {
+      font-family: "Philosopher", serif;
+      font-weight: 700;
+      font-size: 2rem;
+      color: rgb(255, 255, 255);
+      /* color visual conservado */
+    }
+
+    .brand-title-card {
+      font-family: "Philosopher", serif;
+      font-weight: 700;
+      color: rgb(245, 171, 171);
+    }
+
+    .brand-subtitle {
+      font-family: "GothamBook", sans-serif;
+      font-weight: 500;
+      color: lightslategray;
+    }
+
+    .body-text {
+      font-family: "GothamBook", sans-serif;
+    }
+
+    /* Ajuste para imagen overlay (legibilidad) - si se usa en otras tarjetas */
+    .card-img-overlay.bg-gradient {
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.20) 100%);
+    }
+
+    /* ============================================================
+       FOOTER: animación fade-in + estructura
+       ------------------------------------------------------------
+       - Se mantiene la animación original.
+       - Se ajustó `color` a inherit para evitar conflicto con fondo blanco,
+         la apariencia visual no cambia porque los elementos internos
+         definen sus propios colores.
+       ============================================================ */
+
+    footer {
+      background: #ffffff;
+      color: inherit;
+      /* antes estaba white - esto evita texto invisible si se aplica herencia */
+      padding: 60px 5% 30px;
+      opacity: 0;
+      /* invisible al cargar */
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    footer.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .footer-contenido {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .footer-columna-uno {
+      font-family: "GothamBook", sans-serif;
+      font-weight: 500;
+      flex: 1 1 30%;
+      margin: 20px;
+      min-width: 250px;
+      text-align: start;
+    }
+
+    .footer-columna-uno p,
+    .footer-columna-uno a {
+      color: lightslategray;
+      font-size: 0.95rem;
+      display: block;
+      margin-bottom: 10px;
+      transition: color 0.3s;
+      text-decoration: none;
+    }
+
+    .footer-columna-uno a:hover {
+      color: var(--color-secundario);
+    }
+
+    .footer-columna-dos {
+      font-family: "GothamBook", sans-serif;
+      font-weight: 500;
+      flex: 1 1 30%;
+      margin: 10px;
+      min-width: 250px;
+      text-align: end;
+    }
+
+    .footer-columna-dos h3 {
+      color: var(--color-secundario);
+      margin-bottom: 10px;
+    }
+
+    .footer-columna-dos p,
+    .footer-columna-dos a {
+      color: lightslategray;
+      font-size: 0.95rem;
+      display: block;
+      margin-bottom: 10px;
+      transition: color 0.3s;
+      text-decoration: none;
+    }
+
+    .footer-columna-dos a:hover {
+      color: var(--color-secundario);
+    }
+
+    /* Redes sociales */
+    .redes-sociales a {
+      display: inline-block;
+      margin-right: 15px;
+      font-size: 1.8rem;
+      color: rgb(162, 0, 0);
+      transition: all 0.4s ease;
+    }
+
+    .redes-sociales a.facebook:hover {
+      color: #1877f2;
+    }
+
+    .redes-sociales a.instagram:hover {
+      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .redes-sociales a.x-twitter:hover {
+      color: #000000;
+    }
+
+    .footer-bottom {
+      font-family: "GothamBook", sans-serif;
+      font-weight: 500;
+      color: lightslategray;
+      text-align: center;
+      padding-top: 20px;
+      font-size: 0.85rem;
+    }
+
+    /* ============================================================
+       Responsive: se mantiene comportamiento original
+       ============================================================ */
+    @media (max-width: 900px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 60px 8%;
+      }
+
+      .hero-texto,
+      .hero-imagen {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+
+      .hero-imagen img {
+        margin-top: 30px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      img[alt="Logo de la plataforma"] {
+        max-width: 90px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      #footer img {
+        max-width: 140px;
+        /* logo más pequeño en pantallas pequeñas */
+      }
+    }
+  </style>
+
+  <!--
+    Observación sobre fuentes:
+    - El HTML usa "Philosopher" y "GothamBook". Si la vista actual depende de estas, asegúrate
+      de tener las fuentes cargadas en tus archivos externos (headers.css / Bootstrap.css) o
+      de importarlas desde Google Fonts / archivos locales. No se añadieron nuevos imports aquí
+      para no alterar la apariencia visual por diferencias de renderizado.
+  -->
+</head>
+
+<body>
+  <!-- MAIN: marcado semántico mejorado (no se cambia la vista) -->
+  <main role="main">
+    <!-- HEADER: rol banner para mejorar accesibilidad -->
+    <div class="container">
+      <header class="py-3 mb-4 border-bottom border-danger border-2" role="banner" aria-label="Cabecera principal">
+        <div class="container">
+
+          <!-- Título institucional -->
+          <div class="border-bottom border-danger mb-3 text-center">
+            <div class="brand-subtitle fw-bold fs-5 fs-md-4 fs-lg-3">
+              TECNOLÓGICO DE ESTUDIOS SUPERIORES DE CUAUTITLÁN IZCALLI
+            </div>
+          </div>
+
+          <!-- Fila principal con logo y botones -->
+          <div class="row align-items-center text-center text-md-end g-3">
+
+            <!-- Logo -->
+            <div class="col-12 col-md-2 mb-3 mb-md-0 text-center">
+              <img src="../Image/logo_n.png" class="img-fluid" alt="Logo de la plataforma">
+            </div>
+
+            <!-- Título y botones -->
+            <div class="col-12 col-md-10">
+              <h1 class="brand-title display-6 mb-2">
+                MATEMÁTICAS
+                <small class="text-muted d-block d-md-inline" style="font-size:1rem;">
+                  <span class="body-text">PLATAFORMA VIRTUAL</span>
+                </small>
+              </h1>
+
+              <div class="mt-3">
+                <a href="inicio_doc.php" class="btn btn-outline-danger" role="button">ATRAS</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </header>
+
+    </div>
+
+    <!-- Separador visual (se preserva usando utilidades Bootstrap) -->
+    <div class="container my-4"></div>
+
+    <!-- HERO principal -->
+    <section class="hero" aria-label="Contenido Alumno">
+
+      <div class="container">
+        <div class="text-center">
+          <h1 class="brand-title-video mb-4" style="font-size: 3rem;">PROPEDEUTICO DE MATEMATICAS</h1>
+        </div>
+
+        <div class="container">
+
+          <ul class="nav nav-pills nav-justified border border-light rounded nav-guinda" id="pills-tab" role="tablist">
+
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active text-white" id="pills-par1-tab" data-bs-toggle="pill" data-bs-target="#pills-par1"
+                type="button" role="tab" aria-controls="pills-par1" aria-selected="false">Parcial 01</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link text-white" id="pills-par2-tab" data-bs-toggle="pill" data-bs-target="#pills-par2"
+                type="button" role="tab" aria-controls="pills-par2" aria-selected="false">Parcial 02</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link text-white" id="pills-par3-tab" data-bs-toggle="pill" data-bs-target="#pills-par3"
+                type="button" role="tab" aria-controls="pills-par3" aria-selected="false">Parcial 03</button>
+            </li>
+
+          </ul>
+
+          <div class="tab-content" id="pills-tabContent">
+
+            <div class="tab-pane fade show active" id="pills-par1" role="tabpanel" aria-labelledby="pills-par1-tab"
+              tabindex="0">
+
+              <div class="accordion" id="accordionPanelsStayOpenExample">
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                      aria-controls="panelsStayOpen-collapseOne">
+                      Tema 01 - Ley de Signos
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="13"
+                            aria-label="Slide 14"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="14"
+                            aria-label="Slide 15"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="15"
+                            aria-label="Slide 16"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P1/tema01/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema01/Diapositiva2.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema01/Diapositiva3.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema01/Diapositiva4.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema01/Diapositiva5.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema01/Diapositiva6.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema01/Diapositiva7.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema01/Diapositiva8.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema01/Diapositiva9.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema01/Diapositiva10.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema01/Diapositiva11.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema01/Diapositiva12.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema01/Diapositiva13.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema01/Diapositiva14.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema01/Diapositiva15.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema01/Diapositiva16.PNG"
+                              class="d-block w-100"></div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                          data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                          data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseTwo">
+                      Tema 02 - Jerarquía de Operaciones
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingTwo">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators02" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="13"
+                            aria-label="Slide 14"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="14"
+                            aria-label="Slide 15"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="15"
+                            aria-label="Slide 16"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="16"
+                            aria-label="Slide 17"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="17"
+                            aria-label="Slide 18"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="18"
+                            aria-label="Slide 19"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="19"
+                            aria-label="Slide 20"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="20"
+                            aria-label="Slide 21"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="21"
+                            aria-label="Slide 22"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="22"
+                            aria-label="Slide 23"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="23"
+                            aria-label="Slide 24"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="24"
+                            aria-label="Slide 25"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="25"
+                            aria-label="Slide 26"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="26"
+                            aria-label="Slide 27"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators02" data-bs-slide-to="27"
+                            aria-label="Slide 28"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P1/tema02/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva2.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva3.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva4.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva5.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva6.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva7.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva8.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva9.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva10.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva11.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva12.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva13.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva14.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva15.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva16.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva17.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva18.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva19.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva20.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva21.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva22.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva23.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva24.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva25.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva26.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva27.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema02/Diapositiva28.PNG"
+                              class="d-block w-100"></div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators02" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators02" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseThree">
+                      Tema 03 - Fracciones
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingThree">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators03" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="13"
+                            aria-label="Slide 14"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="14"
+                            aria-label="Slide 15"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="15"
+                            aria-label="Slide 16"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="16"
+                            aria-label="Slide 17"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="17"
+                            aria-label="Slide 18"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="17"
+                            aria-label="Slide 18"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="18"
+                            aria-label="Slide 19"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="19"
+                            aria-label="Slide 20"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="20"
+                            aria-label="Slide 21"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="21"
+                            aria-label="Slide 22"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="22"
+                            aria-label="Slide 23"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="23"
+                            aria-label="Slide 24"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="24"
+                            aria-label="Slide 25"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="25"
+                            aria-label="Slide 26"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="26"
+                            aria-label="Slide 27"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="27"
+                            aria-label="Slide 28"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="28"
+                            aria-label="Slide 29"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="29"
+                            aria-label="Slide 30"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="30"
+                            aria-label="Slide 31"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="31"
+                            aria-label="Slide 32"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators03" data-bs-slide-to="32"
+                            aria-label="Slide 33"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P1/tema03/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva2.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva3.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva4.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva5.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva6.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva7.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva8.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva9.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva10.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva11.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva12.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva13.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva14.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva15.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva16.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva17.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva18.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva18.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva18.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva20.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva21.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva22.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva23.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva24.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva25.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva26.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva27.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva28.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva29.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva30.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva31.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva32.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema03/Diapositiva33.PNG"
+                              class="d-block w-100"></div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators03" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators03" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseFour">
+                      Tema 04 - Ecuaciones Lineales
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingFour">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators04" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators04" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators04" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators04" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators04" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators04" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators04" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators04" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators04" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators04" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators04" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators04" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators04" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators04" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P1/tema04/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema04/Diapositiva2.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema04/Diapositiva3.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema04/Diapositiva4.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema04/Diapositiva5.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema04/Diapositiva6.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema04/Diapositiva7.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema04/Diapositiva8.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema04/Diapositiva9.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema04/Diapositiva10.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema04/Diapositiva11.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema04/Diapositiva12.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema04/Diapositiva13.PNG"
+                              class="d-block w-100"></div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators04" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators04" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingFive">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseFive">
+                      Tema 05 - Polinomios
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingFive">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators05" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="13"
+                            aria-label="Slide 14"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="14"
+                            aria-label="Slide 15"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="15"
+                            aria-label="Slide 16"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="16"
+                            aria-label="Slide 17"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="17"
+                            aria-label="Slide 18"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="18"
+                            aria-label="Slide 19"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="19"
+                            aria-label="Slide 20"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="20"
+                            aria-label="Slide 21"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="21"
+                            aria-label="Slide 22"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators05" data-bs-slide-to="22"
+                            aria-label="Slide 23"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P1/tema05/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva2.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva3.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva4.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva5.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva6.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva7.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva8.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva9.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva10.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva11.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva12.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva13.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva14.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva15.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva16.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva17.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva18.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva19.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva20.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva21.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva22.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P1/tema05/Diapositiva23.PNG"
+                              class="d-block w-100"></div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators05" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators05" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="tab-pane fade" id="pills-par2" role="tabpanel" aria-labelledby="pills-par2-tab" tabindex="1">
+
+              <div class="accordion" id="accordionPanelsStayOpenExample">
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                      aria-controls="panelsStayOpen-collapseOne">
+                      Tema 07 - Jerarquía de Operaciones
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators07" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="13"
+                            aria-label="Slide 14"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="14"
+                            aria-label="Slide 15"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="15"
+                            aria-label="Slide 16"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="16"
+                            aria-label="Slide 17"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="17"
+                            aria-label="Slide 18"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="18"
+                            aria-label="Slide 19"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="19"
+                            aria-label="Slide 20"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="20"
+                            aria-label="Slide 21"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="21"
+                            aria-label="Slide 22"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="22"
+                            aria-label="Slide 23"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="23"
+                            aria-label="Slide 24"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="24"
+                            aria-label="Slide 25"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="25"
+                            aria-label="Slide 26"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="26"
+                            aria-label="Slide 27"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="27"
+                            aria-label="Slide 28"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="28"
+                            aria-label="Slide 29"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators07" data-bs-slide-to="29"
+                            aria-label="Slide 30"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P2/S07/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva2.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva3.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva4.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva5.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva6.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva7.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva8.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva9.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva10.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva11.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva12.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva13.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva14.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva15.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva16.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva17.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva18.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva19.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva20.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva21.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva22.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva23.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva24.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva25.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva26.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva27.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva28.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva29.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S07/Diapositiva30.PNG" class="d-block w-100">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators07" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators07" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseTwo">
+                      Tema 08 - Propiedades de los Números
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingTwo">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators08" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="13"
+                            aria-label="Slide 14"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="14"
+                            aria-label="Slide 15"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="15"
+                            aria-label="Slide 16"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="16"
+                            aria-label="Slide 17"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators08" data-bs-slide-to="17"
+                            aria-label="Slide 18"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P2/S08/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva2.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva3.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva4.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva5.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva6.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva7.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva8.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva9.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva10.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva11.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva12.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva13.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva14.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva15.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva16.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva17.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S08/Diapositiva18.PNG" class="d-block w-100">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators08" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators08" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseThree">
+                      Tema 09 - Álgebra
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingThree">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators09" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="13"
+                            aria-label="Slide 14"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="14"
+                            aria-label="Slide 15"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="15"
+                            aria-label="Slide 16"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="16"
+                            aria-label="Slide 17"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="17"
+                            aria-label="Slide 18"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="18"
+                            aria-label="Slide 19"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="19"
+                            aria-label="Slide 20"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="20"
+                            aria-label="Slide 21"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="21"
+                            aria-label="Slide 22"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="22"
+                            aria-label="Slide 23"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="23"
+                            aria-label="Slide 24"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="24"
+                            aria-label="Slide 25"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="25"
+                            aria-label="Slide 26"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="26"
+                            aria-label="Slide 27"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators09" data-bs-slide-to="27"
+                            aria-label="Slide 28"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P2/S09/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva2.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva3.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva4.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva5.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva6.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva7.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva8.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva9.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva10.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva11.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva12.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva13.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva14.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva15.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva16.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva17.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva18.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva19.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva20.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva21.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva22.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva23.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva24.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva25.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva26.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva27.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S09/Diapositiva28.PNG" class="d-block w-100">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators09" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators09" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseFour">
+                      Tema 10 - Series y Sucesiones
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingFour">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators10" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="13"
+                            aria-label="Slide 14"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="14"
+                            aria-label="Slide 15"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="15"
+                            aria-label="Slide 16"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="16"
+                            aria-label="Slide 17"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="17"
+                            aria-label="Slide 18"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="18"
+                            aria-label="Slide 19"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="19"
+                            aria-label="Slide 20"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="20"
+                            aria-label="Slide 21"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="21"
+                            aria-label="Slide 22"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="22"
+                            aria-label="Slide 23"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="23"
+                            aria-label="Slide 24"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="24"
+                            aria-label="Slide 25"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="25"
+                            aria-label="Slide 26"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="26"
+                            aria-label="Slide 27"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="27"
+                            aria-label="Slide 28"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="28"
+                            aria-label="Slide 29"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="29"
+                            aria-label="Slide 30"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="30"
+                            aria-label="Slide 31"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators10" data-bs-slide-to="31"
+                            aria-label="Slide 32"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P2/S10/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva2.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva3.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva4.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva5.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva6.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva7.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva8.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva9.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva10.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva11.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva12.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva13.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva14.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva15.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva16.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva17.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva18.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva19.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva20.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva21.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva22.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva23.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva24.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva25.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva26.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva27.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva28.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva29.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva30.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva31.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S10/Diapositiva32.PNG" class="d-block w-100">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators10" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators10" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingFive">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseFive">
+                      Tema 11 - EJERCICIOS
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingFive">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators11" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators11" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators11" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators11" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators11" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators11" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators11" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators11" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators11" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators11" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators11" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators11" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators11" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators11" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators11" data-bs-slide-to="13"
+                            aria-label="Slide 14"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators11" data-bs-slide-to="14"
+                            aria-label="Slide 15"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P2/S11/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S11/Diapositiva2.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S11/Diapositiva3.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S11/Diapositiva4.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S11/Diapositiva5.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S11/Diapositiva6.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S11/Diapositiva7.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S11/Diapositiva8.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S11/Diapositiva9.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S11/Diapositiva10.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S11/Diapositiva11.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S11/Diapositiva12.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S11/Diapositiva13.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S11/Diapositiva14.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/S11/Diapositiva15.PNG" class="d-block w-100">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators11" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators11" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingSix">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseSix">
+                      Tema 12 - Actividad 1
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingSix">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators12-1" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-1" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-1" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-1" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-1" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-1" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-1" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-1" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P2/S12-1/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-1/Diapositiva2.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-1/Diapositiva3.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-1/Diapositiva4.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-1/Diapositiva5.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-1/Diapositiva6.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-1/Diapositiva7.PNG"
+                              class="d-block w-100"></div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators12-1" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators12-1" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingSeven">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseSeven">
+                      Tema 12 - Actividad 2
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingSeven">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators12-2" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-2" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-2" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-2" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-2" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-2" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-2" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-2" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-2" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-2" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-2" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators12-2" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P2/S12-2/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-2/Diapositiva2.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-2/Diapositiva3.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-2/Diapositiva4.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-2/Diapositiva5.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-2/Diapositiva6.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-2/Diapositiva7.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-2/Diapositiva8.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-2/Diapositiva9.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-2/Diapositiva10.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/S12-2/Diapositiva11.PNG"
+                              class="d-block w-100"></div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators12-2" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators12-2" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingEight">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseEight" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseEight">
+                      Examen Mensual
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseEight" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingEight">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicatorsEM" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicatorsEM" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicatorsEM" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicatorsEM" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicatorsEM" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicatorsEM" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicatorsEM" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicatorsEM" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicatorsEM" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicatorsEM" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicatorsEM" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicatorsEM" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P2/EM/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P2/EM/Diapositiva2.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/EM/Diapositiva3.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/EM/Diapositiva4.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/EM/Diapositiva5.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/EM/Diapositiva6.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/EM/Diapositiva7.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/EM/Diapositiva8.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/EM/Diapositiva9.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/EM/Diapositiva10.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P2/EM/Diapositiva11.PNG" class="d-block w-100">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicatorsEM" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicatorsEM" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="tab-pane fade" id="pills-par3" role="tabpanel" aria-labelledby="pills-par3-tab" tabindex="2">
+
+              <div class="accordion" id="accordionPanelsStayOpenExample">
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                      aria-controls="panelsStayOpen-collapseOne">
+                      Tema 13 - Probabilidad
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators13" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="13"
+                            aria-label="Slide 14"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="14"
+                            aria-label="Slide 15"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="15"
+                            aria-label="Slide 16"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="16"
+                            aria-label="Slide 17"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="17"
+                            aria-label="Slide 18"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="18"
+                            aria-label="Slide 19"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="19"
+                            aria-label="Slide 20"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="20"
+                            aria-label="Slide 21"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="21"
+                            aria-label="Slide 22"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="22"
+                            aria-label="Slide 23"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="23"
+                            aria-label="Slide 24"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="24"
+                            aria-label="Slide 25"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="25"
+                            aria-label="Slide 26"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="26"
+                            aria-label="Slide 27"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="27"
+                            aria-label="Slide 28"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="28"
+                            aria-label="Slide 29"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="29"
+                            aria-label="Slide 30"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators13" data-bs-slide-to="30"
+                            aria-label="Slide 31"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P3/S13/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva2.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva3.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva4.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva5.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva6.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva7.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva8.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva9.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva10.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva11.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva12.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva13.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva14.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva15.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva16.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva17.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva18.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva19.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva20.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva21.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva22.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva23.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva24.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva25.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva26.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva27.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva28.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva29.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva30.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S13/Diapositiva31.PNG" class="d-block w-100">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators13" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators13" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseTwo">
+                      Tema 14 - Estadística
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingTwo">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators14" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="13"
+                            aria-label="Slide 14"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="14"
+                            aria-label="Slide 15"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="15"
+                            aria-label="Slide 16"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="16"
+                            aria-label="Slide 17"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="17"
+                            aria-label="Slide 18"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators14" data-bs-slide-to="18"
+                            aria-label="Slide 19"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P3/S14/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva2.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva3.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva4.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva5.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva6.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva7.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva8.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva9.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva10.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva11.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva12.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva13.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva14.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva15.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva16.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva17.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva18.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S14/Diapositiva19.PNG" class="d-block w-100">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators14" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators14" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseThree">
+                      Tema 15 - Medidas Tendencia Central
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingThree">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators15" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="13"
+                            aria-label="Slide 14"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="14"
+                            aria-label="Slide 15"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="15"
+                            aria-label="Slide 16"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="16"
+                            aria-label="Slide 17"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="17"
+                            aria-label="Slide 18"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="18"
+                            aria-label="Slide 19"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="19"
+                            aria-label="Slide 20"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="20"
+                            aria-label="Slide 21"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="21"
+                            aria-label="Slide 22"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators15" data-bs-slide-to="22"
+                            aria-label="Slide 23"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P3/S15/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva2.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva3.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva4.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva5.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva6.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva7.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva8.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva9.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva10.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva11.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva12.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva13.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva14.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva15.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva16.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva17.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva18.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva19.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva20.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva21.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva22.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S15/Diapositiva23.PNG" class="d-block w-100">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators15" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators15" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseFour">
+                      Tema 16 - Ecuaciones Lineales
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingFour">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators16" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="13"
+                            aria-label="Slide 14"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="14"
+                            aria-label="Slide 15"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="15"
+                            aria-label="Slide 16"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="16"
+                            aria-label="Slide 17"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="17"
+                            aria-label="Slide 18"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators16" data-bs-slide-to="18"
+                            aria-label="Slide 19"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P3/S16/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva2.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva3.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva4.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva5.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva6.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva7.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva8.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva9.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva10.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva11.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva12.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva13.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva14.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva15.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva16.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva17.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva18.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S16/Diapositiva19.PNG" class="d-block w-100">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators16" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators16" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingFive">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseFive">
+                      Tema 17 - Polinomios
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingFive">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators17" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="13"
+                            aria-label="Slide 14"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="14"
+                            aria-label="Slide 15"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="15"
+                            aria-label="Slide 16"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="16"
+                            aria-label="Slide 17"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="17"
+                            aria-label="Slide 18"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="18"
+                            aria-label="Slide 19"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="19"
+                            aria-label="Slide 20"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="20"
+                            aria-label="Slide 21"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="21"
+                            aria-label="Slide 22"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="22"
+                            aria-label="Slide 23"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="23"
+                            aria-label="Slide 24"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators17" data-bs-slide-to="24"
+                            aria-label="Slide 25"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P3/S17/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva2.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva3.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva4.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva5.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva6.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva7.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva8.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva9.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva10.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva11.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva12.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva13.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva14.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva15.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva16.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva17.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva18.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva19.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva20.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva21.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva22.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva23.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva24.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S17/Diapositiva25.PNG" class="d-block w-100">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators17" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators17" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingSix">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseSix">
+                      Tema 18 - Cuadráticas
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingSix">
+                    <div class="accordion-body">
+
+                      <div id="carouselExampleIndicators18" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="8"
+                            aria-label="Slide 9"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="9"
+                            aria-label="Slide 10"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="10"
+                            aria-label="Slide 11"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="11"
+                            aria-label="Slide 12"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="12"
+                            aria-label="Slide 13"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="13"
+                            aria-label="Slide 14"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="14"
+                            aria-label="Slide 15"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators18" data-bs-slide-to="15"
+                            aria-label="Slide 16"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                          <div class="carousel-item active"><img src="../Image/P3/S18/Diapositiva1.PNG"
+                              class="d-block w-100"></div>
+                          <div class="carousel-item"><img src="../Image/P3/S18/Diapositiva2.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S18/Diapositiva3.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S18/Diapositiva4.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S18/Diapositiva5.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S18/Diapositiva6.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S18/Diapositiva7.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S18/Diapositiva8.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S18/Diapositiva9.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S18/Diapositiva10.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S18/Diapositiva11.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S18/Diapositiva12.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S18/Diapositiva13.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S18/Diapositiva14.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S18/Diapositiva15.PNG" class="d-block w-100">
+                          </div>
+                          <div class="carousel-item"><img src="../Image/P3/S18/Diapositiva16.PNG" class="d-block w-100">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                          data-bs-target="#carouselExampleIndicators18" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                          data-bs-target="#carouselExampleIndicators18" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER: se preserva estructura y animaciones -->
+  <footer id="footer" role="contentinfo" aria-label="Pie de página" class="py-4 mt-5">
+    <div class="container">
+      <div class="row text-center text-md-start align-items-center gy-4">
+
+        <!-- Columna 1: Enlaces -->
+        <div class="col-12 col-md-4 footer-columna-uno fw-bold text-center" aria-label="Enlaces">
+          <nav
+            class="d-flex flex-column flex-md-row flex-wrap justify-content-center justify-content-md-center gap-2 fw-bold">
+            <a href="#">NOSOTROS</a>
+            <a href="#">ACERCA DE</a>
+            <a href="#">CONTACTO</a>
+            <a href="#">SERVICIOS</a>
+          </nav>
+        </div>
+
+        <!-- Columna 2: Logo -->
+        <div class="col-12 col-md-4 text-center footer-columna">
+          <img src="../Image/m_logo.png" class="img-fluid" style="max-width:200px;" alt="Logo institucional">
+        </div>
+
+        <!-- Columna 3: Redes sociales -->
+        <div class="footer-columna-dos col-12 col-md-4 text-center text-md-center" aria-label="Redes sociales">
+          <div class="redes-sociales">
+            <!-- Se añadieron aria-labels para accesibilidad sin cambiar apariencia -->
+            <a href="#" class="facebook" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="instagram" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="x-twitter" title="X (Twitter)" aria-label="X (Twitter)"><i
+                class="fab fa-x-twitter"></i></a>
+          </div>
+
+        </div>
+
+        <!-- Línea inferior -->
+        <div class="footer-bottom text-center border-top border-danger border-2 mt-4 pt-3 fw-bold">
+          &copy; 2025 DIVISIÓN DE INGENIERÍA EN SISTEMAS COMPUTACIONALES.
+        </div>
+      </div>
+  </footer>
+
+  <!-- Scripts (se mantienen exactamente como en el original) -->
+  <script src="../Style/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+
+    /* ============================================================
+       Observador para animar el footer (fade-in)
+       ------------------------------------------------------------
+       - Añade la clase .visible cuando el footer entra en el viewport.
+       - Se deja la misma lógica que en el original.
+       ============================================================ */
+    (function () {
+      const footer = document.getElementById('footer');
+      if (!footer) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            footer.classList.add('visible');
+            observer.unobserve(footer);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      observer.observe(footer);
+    })();
+  </script>
+</body>
+
+</html>
